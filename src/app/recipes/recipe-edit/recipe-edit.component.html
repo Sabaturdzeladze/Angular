@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-xs-12">
           <button type="submit" [disabled]="!recipeForm.valid" class="btn btn-success">Save</button>
-          <button type="buttton" class="btn btn-danger">Cancel</button>
+          <button type="buttton" class="btn btn-danger" (click)="onCancel()">Cancel</button>
         </div>
       </div>
       <div class="row">
@@ -29,13 +29,19 @@
               id="imagePath"
               formControlName="imagePath"
               class="form-control"
+              #imagePath
             />
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <img src="" alt="img-responsive" />
+          <img
+            *ngIf="imagePath.value"
+            [src]="imagePath.value"
+            alt="img-responsive"
+            style="max-height: 300px;"
+          />
         </div>
       </div>
       <div class="row">
@@ -79,7 +85,11 @@
                 />
               </div>
               <div class="col-xs-2">
-                <button type="button" class="btn btn-danger">
+                <button
+                  (click)="onIngredientDelete(i)"
+                  type="button"
+                  class="btn btn-danger"
+                >
                   X
                 </button>
               </div>
