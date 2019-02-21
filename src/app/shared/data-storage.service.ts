@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpRequest
+} from '@angular/common/http';
 
 import { RecipeService } from '../recipes/recipe.service';
 import { AuthService } from '../auth/auth.service';
@@ -16,15 +21,27 @@ export class DataStorageService {
   ) {}
 
   storeRecipes() {
-    const token = this.authService.getToken();
-    return this.httpClient.put(
-      'https://ng-recipe-book-6bb5e.firebaseio.com/recipes.json?auth=' + token,
-      this.recipeService.getRecipes()
+    // const headers = new HttpHeaders().set('Authorization', 'Bearer afsoenlfas');
+    // return this.httpClient.put(
+    //   'https://ng-recipe-book-6bb5e.firebaseio.com/recipes.json',
+    //   this.recipeService.getRecipes(), {
+    //     observe: 'body',
+    //     params: new HttpParams().set('auth', token)
+    //     // headers
+    //   }
+    // );
+    const req = new HttpRequest(
+      'PUT',
+      'https://ng-recipe-book-6bb5e.firebaseio.com/recipes.json',
+      this.recipeService.getRecipes(),
+      // { reportProgress: true, params: new HttpParams().set('auth', token) }    // good for uploading or downloading things
+      { reportProgress: true }
     );
+
+    return this.httpClient.request(req);
   }
 
   fetchRecipes() {
-    const token = this.authService.getToken();
     // this.httpClient
     //   .get(
     //     'https://ng-recipe-book-6bb5e.firebaseio.com/recipes.json?auth=' + token, {
@@ -34,7 +51,9 @@ export class DataStorageService {
     //   )
     this.httpClient
       .get<Recipe[]>(
-        'https://ng-recipe-book-6bb5e.firebaseio.com/recipes.json?auth=' + token
+        'https://ng-recipe-book-6bb5e.firebaseio.com/recipes.json',
+        // { params: new HttpParams().set('auth', token) }
+        { observe: 'body', responseType: 'json' }
       )
       .pipe(
         map(recipes => {

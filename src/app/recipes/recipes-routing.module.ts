@@ -9,7 +9,7 @@ import { RecipeDetailComponent } from "./recipe-detail/recipe-detail.component";
 
 const recipesRoutes: Routes = [
   {
-    path: 'recipes',
+    path: '',    // lazu loading
     component: RecipesComponent,
     children: [
       { path: '', component: RecipeStartComponent },
@@ -24,6 +24,8 @@ const recipesRoutes: Routes = [
   imports: [
     RouterModule.forChild(recipesRoutes)
   ],
-  exports: [RouterModule]  
+  exports: [RouterModule],
+  // providing authguard in only recipes because we need it only here
+  providers: [AuthGuard]
 })
 export class RecipesRoutingModule {}

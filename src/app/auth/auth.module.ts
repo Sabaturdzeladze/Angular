@@ -12,7 +12,7 @@ import { AuthRoutingModule } from './auth-routing.module';
     SignupComponent
   ],
   imports: [
-    CommonModule,
+    // CommonModule,  // ngClass ngFor ngIf
     FormsModule,
     AuthRoutingModule
   ]
